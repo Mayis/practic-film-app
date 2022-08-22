@@ -165,9 +165,22 @@ main {
 						cursor: pointer;
 						font-weight: bold;
 					}
+					.fav{
+						display: none;
+						position: absolute;
+						right: 20px;
+						top: 0px;
+						font-size: 15px;
+						color: rgb(255, 153, 0);
+						cursor: pointer;
+						font-weight: bold;
+					}
 
 					&:hover {
 						[data-rm] {
+							display: block;
+						}
+						.fav{
 							display: block;
 						}
 					}
