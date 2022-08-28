@@ -139,26 +139,14 @@ main .container #main_header #films p [data-rm] {
   cursor: pointer;
   font-weight: bold;
 }
-main .container #main_header #films p .fav {
-  display: none;
-  position: absolute;
-  right: 20px;
-  top: 0px;
-  font-size: 15px;
-  color: rgb(255, 153, 0);
-  cursor: pointer;
-  font-weight: bold;
-}
 main .container #main_header #films p:hover [data-rm] {
-  display: block;
-}
-main .container #main_header #films p:hover .fav {
   display: block;
 }
 main .container #main_header #add {
   width: 50%;
 }
-main .container #main_header #add input, main .container #main_header #add button {
+main .container #main_header #add input,
+main .container #main_header #add button {
   padding: 10px;
   border-radius: 8px;
 }
@@ -202,4 +190,85 @@ main .container #main_promo {
 main .container #main_promo .mp img {
   width: 100%;
   height: 200px;
+}
+main .tabs {
+  margin-top: 60px;
+}
+main .tabs .tab .tab_btns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+main .tabs .tab .tab_btns .tab_btn {
+  padding: 10px;
+  background: #f55d22;
+  flex-basis: 25%;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+}
+main .tabs .tab .tab_btns .tab_btn.tab_btn-active {
+  background: #df480d;
+}
+main .tabs .tab .tab_bodys {
+  margin-top: 20px;
+}
+main .tabs .tab .tab_bodys .tab_body {
+  display: none;
+}
+main .tabs .tab .tab_bodys .tab_body.tab_body-active {
+  display: block;
+}
+main .tabs .tab .tab_bodys .tab_body p {
+  color: #5d5d5d;
+  font-size: 17px;
+  line-height: 25px;
+  letter-spacing: 1px;
+  text-align: justify;
+}
+
+.modal_wrapper {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+}
+.modal_wrapper.modal_wrapper-active {
+  display: flex;
+}
+.modal_wrapper form {
+  padding: 30px;
+  background: #fff;
+  border-radius: 8px;
+}
+.modal_wrapper form h2 {
+  margin-bottom: 15px;
+  color: #555;
+  letter-spacing: 2px;
+}
+.modal_wrapper form input {
+  display: block;
+  margin-bottom: 5px;
+  padding: 10px 15px;
+  width: 100%;
+  min-width: 280px;
+  border: 1px solid #ccc;
+  color: #5d5d5d;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.modal_wrapper form button {
+  background: green;
+  display: block;
+  padding: 7px 20px;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
 }/*# sourceMappingURL=style.css.map */

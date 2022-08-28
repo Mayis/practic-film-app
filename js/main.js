@@ -1,16 +1,25 @@
 "use strict";
 const poster = document.querySelector("header img");
-const adv = document.querySelectorAll("#main_promo .mp");
 const filmsBlock = document.querySelector("#films");
 const form = document.querySelector("#add");
+const signInModalBtn = document.querySelector("[data-in]");
+const signInModal = document.querySelector("[data-in-modal]");
+const tabBtns = document.querySelectorAll(".tab_btn");
+const tabBodys = document.querySelectorAll(".tab_body");
 
-poster.src = "img/bg2.jpg";
-poster.alt = "Hitman's Wife's Bodyguard";
-adv.forEach((adv) => adv.remove());
-document.title = poster.alt;
-
+function init(x) {
+  poster.src = `img/bg${x}.jpg`;
+  if (poster.src.slice(-7) === "bg2.jpg") {
+    poster.alt = "Hitman's Wife's Bodyguard";
+  } else if (poster.src.slice(-7) === "bg1.jpg") {
+    poster.alt = "Gemini Man";
+  }
+  document.title = poster.alt;
+  document.querySelectorAll("#main_promo .mp").forEach((adv) => adv.remove());
+}
+init(2);
 const _DB = {
-  allMovies: [
+  movies: [
     "Logan",
     "Spider-Man",
     "The Seven Samurai",
@@ -21,75 +30,42 @@ const _DB = {
     "Rocky",
     "Crid",
   ],
-  movies: [],
-  favMovies: [],
 };
-function getFilms() {
-  if (_DB.allMovies.length > 19) {
-    _DB.movies = [];
-    for (let i = 0; i < 20; i++) {
-      let filmIndex = Math.floor(Math.random() * _DB.allMovies.length);
-      console.log(filmIndex);
-      if (_DB.movies.includes(_DB.allMovies[filmIndex])) {
-        i--;
-        console.log("film alredy extends");
-      } else {
-        _DB.movies.push(_DB.allMovies[filmIndex]);
-      }
-    }
-  } else {
-    _DB.movies = _DB.allMovies;
-  }
-}
-getFilms();
-
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   let val = e.target.firstElementChild.value.trim();
-  let valCopy = val;
   const check = document.querySelector("input[name='favorite']");
 
   if (val !== "") {
-    _DB.allMovies.push(valCopy);
-
-    if (val.length >= 21) {
-      val = `${val.slice(0, 21)}...`;
-    }
     if (check.checked) {
-      console.log(`This film <${valCopy}> added to favorite`);
-      _DB.favMovies.push(valCopy);
+      console.log(`This film <${val}> added to favorite`);
     }
+
+    _DB.movies.push(val);
   }
-  getFilms();
+
   setSort(_DB.movies);
-
   createFilmsList(_DB.movies, filmsBlock);
-
   e.target.reset();
 });
-
 function setSort(arr) {
   arr.sort();
 }
-
 function createFilmsList(films, parent) {
   parent.innerHTML = "";
   setSort(films);
 
   films.forEach((film, index) => {
     parent.innerHTML += `
-			<p >
-				${index + 1}. ${film} 
+			<p>
+				${index + 1}. ${film.length >= 21 ? film.slice(0, 21) + "..." : film} 
 				<span data-rm>&#128465</span>
-				<span class="fav"> &#11088</span>
 			</p>
 		`;
   });
 
   removeFilmFromList("[data-rm]");
-  addToFav();
 }
-
 function removeFilmFromList(selector) {
   setSort(_DB.movies);
   document.querySelectorAll(selector).forEach((btn, index) => {
@@ -100,20 +76,44 @@ function removeFilmFromList(selector) {
     });
   });
 }
-function addToFav() {
-  const favs = document.querySelectorAll(".fav");
+createFilmsList(_DB.movies, filmsBlock);
 
-  favs.forEach((fav, i) => {
-    fav.addEventListener("click", () => {
-      let text = fav.parentElement.textContent
-        .replace(/[^a-zA-Z_ ]/g, "")
-        .trim();
-      _DB.favMovies.push(text);
-      fav.parentElement.style.color !== "red"
-        ? (fav.parentElement.style.color = "red")
-        : (fav.parentElement.style.color = "black");
-    });
+signInModalBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  signInModal.classList.add("modal_wrapper-active");
+});
+signInModal.addEventListener("click", (e) => {
+  // if (e.target.matches("form, h2, input, button")){
+  // 	signInModal.classList.remove("modal_wrapper-active");
+  // }
+
+  if (e.target.matches(".modal_wrapper")) {
+    signInModal.classList.remove("modal_wrapper-active");
+  }
+});
+
+tabBtns[0].classList.add("tab_btn-active");
+tabBodys[0].classList.add("tab_body-active");
+
+// for (let i = 0; i < tabBtns.length; i++) {
+//   tabBtns[i].addEventListener("click", () => {
+//     for (let x = 0; x < tabBtns.length; x++) {
+//       tabBtns[x].classList.remove("tab_btn-active");
+//       tabBodys[x].classList.remove("tab_body-active");
+//     }
+//     tabBtns[i].classList.add("tab_btn-active");
+//     tabBodys[i].classList.add("tab_body-active");
+//   });
+// }
+for (let i = 0; i < tabBtns.length; i++) {
+  tabBtns[i].addEventListener("click", (e) => {
+    const el = document.querySelector(".tab_btn-active");
+    const cont = document.querySelector(".tab_body-active");
+
+    el.classList.remove("tab_btn-active");
+    cont.classList.remove("tab_body-active");
+
+    e.target.classList.add("tab_btn-active");
+    tabBodys[i].classList.add("tab_body-active");
   });
 }
-
-createFilmsList(_DB.movies, filmsBlock);
